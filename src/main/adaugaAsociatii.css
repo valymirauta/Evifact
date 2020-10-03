@@ -1,0 +1,15 @@
+#lblTitle{
+    -fx-background-color:#3a434c;
+    -fx-text-fill:white;
+    -fx-alignment:center;
+}
+.button{
+    -fx-text-fill:white;
+    -fx-opacity:0.9;
+}
+#btnAdauga{
+    -fx-background-color:#0b824e;
+}
+.button:hover{
+    -fx-opacity:1;
+}
