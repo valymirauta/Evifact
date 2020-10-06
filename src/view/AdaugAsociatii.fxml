@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="368.0" prefWidth="476.0" stylesheets="@adaugaAsociatii.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.AdaugaAsociatiiController">
+<AnchorPane fx:id="adaugaAsociatiePane" prefHeight="406.0" prefWidth="476.0" stylesheets="@../main/adaugaAsociatii.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdaugareAsociatieController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="100.0" prefHeight="290.0" prefWidth="600.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -33,9 +33,17 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </VBox.margin>
             </TextField>
+            <TextField fx:id="txtAdresa" layoutX="30.0" layoutY="174.0" prefHeight="51.0" prefWidth="600.0" promptText="Adresa">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
          </children>
       </VBox>
-      <Button fx:id="btnAdauga" layoutX="145.0" layoutY="258.0" mnemonicParsing="false" onAction="#adaugaAsociatii" prefHeight="59.0" prefWidth="166.0" stylesheets="@adaugaAsociatii.css" text="Adauga">
+      <Button fx:id="btnAdauga" layoutX="143.0" layoutY="296.0" mnemonicParsing="false" onAction="#adaugaAsociatie" prefHeight="59.0" prefWidth="166.0" stylesheets="@../main/adaugaAsociatii.css" text="Adauga">
          <font>
             <Font size="25.0" />
          </font>

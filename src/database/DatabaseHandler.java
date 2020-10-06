@@ -1,22 +1,21 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DatabaseHandler {
-    public DatabaseHandler handler = null;
-    public final String DB_URL = "jdbc:sqlite:C:/sqlite/db/tests.db";
-    public Connection conn = null;
-    public Statement stmt = null;
+    public static DatabaseHandler handler = null;
+    public final String DB_URL = "jdbc:sqlite:evifact.db";
+    public static Connection conn = null;
+    public static Statement stmt = null;
 
     private DatabaseHandler() {
         createConnection();
-        createNewTable();
+        creareTabelAsociatii();
+        creareTabelFurnizori();
+        creareTabelAsociatiiFurnizori();
     }
 
-    public DatabaseHandler getInstance() {
+    public static DatabaseHandler getInstance() {
         if (handler == null) {
             handler = new DatabaseHandler();
         }
@@ -25,24 +24,74 @@ public class DatabaseHandler {
 
     void createConnection() {
         try {
+            Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection(DB_URL);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    public void createNewTable() {
-        String sql = "CREATE TABLE IF NOT EXIST asociatii (\n" +
-                " ID integer PRIMARy KEY,\n" +
-                " CIF text NOT NULL,\n" +
-                " denumire text NOT NULL\n" +
-                ");";
+    public void creareTabelAsociatii() {
+        String TABLE_NAME = "asociatii";
+
         try {
             stmt = conn.createStatement();
-            stmt.execute(sql);
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toLowerCase(), null);
+            if (!tables.next()) {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "(" +
+                        " Id integer PRIMARY KEY AUTOINCREMENT," +
+                        " CIF text NOT NULL," +
+                        " denumire text NOT NULL," +
+                        " adresa text NOT NULL)");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
+
+    public void creareTabelFurnizori() {
+        String TABLE_NAME = "furnizori";
+
+        try {
+            stmt = conn.createStatement();
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toLowerCase(), null);
+            if (!tables.next()) {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "(" +
+                        " Id integer PRIMARY KEY AUTOINCREMENT," +
+                        " CUI text NOT NULL," +
+                        " denumire text NOT NULL," +
+                        " adresa text NOT NULL)");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void creareTabelAsociatiiFurnizori() {
+        String TABLE_NAME = "asociatii_furnizori";
+
+        try {
+            stmt = conn.createStatement();
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toLowerCase(), null);
+            if (!tables.next()) {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "(" +
+                        " Id integer PRIMARY KEY AUTOINCREMENT," +
+                        " asociatiiID integer NOT NULL," +
+                        " furnizoriID integer NOT NULL," +
+                        " FOREIGN KEY (asociatiiID)" +
+                        "   REFERENCES asociatii (Id)," +
+                        " FOREIGN KEY (furnizoriID)" +
+                        "   REFERENCES furnizori (Id))");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
+
+

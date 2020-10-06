@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.viewAsociatieController" >
+<AnchorPane fx:id="listaAsociatiiPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListareAsociatiiController">
    <children>
       <HBox AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#adaugaAsociatii" prefHeight="53.0" prefWidth="188.0" text="Adauga asociatie">
+            <Button fx:id="btnAdaugaAsoc" defaultButton="true" mnemonicParsing="false" onAction="#asociatieNoua" prefHeight="53.0" prefWidth="188.0" text="Adauga asociatie">
                <font>
                   <Font size="20.0" />
                </font>
@@ -29,12 +29,13 @@
             </TextField>
          </children>
       </HBox>
-      <TableView layoutY="97.0" prefHeight="435.0" prefWidth="830.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="tabelAsociatii" layoutY="97.0" prefHeight="435.0" prefWidth="830.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <columns>
-          <TableColumn prefWidth="47.0" text="Nr. crt." />
-          <TableColumn prefWidth="155.0" text="CIF" />
-            <TableColumn prefWidth="234.0" text="Denumire" />
-            <TableColumn prefWidth="393.0" text="Adresa" />
+          <TableColumn fx:id="colNrCrt" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Nr. crt." />
+          <TableColumn fx:id="colCIF" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="CIF" />
+            <TableColumn fx:id="colDenumire" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Denumire" />
+            <TableColumn fx:id="colAdresa" maxWidth="400.0" minWidth="-1.0" prefWidth="400.0" text="Adresa" />
+            <TableColumn fx:id="colActiuni" maxWidth="400.0" minWidth="-1.0" prefWidth="400.0" text="Actiuni" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -42,13 +43,18 @@
       </TableView>
       <HBox alignment="BASELINE_RIGHT" layoutY="533.0" prefHeight="53.0" prefWidth="838.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" style="-fx-background-color: #03f8fc;" text="Inchide">
+            <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" onAction="#refresh" style="-fx-background-color: #03f8fc;" text="Refresh">
                <font>
                   <Font size="20.0" />
                </font>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
+            </Button>
+            <Button fx:id="btnInchide" alignment="BASELINE_RIGHT" contentDisplay="CENTER" graphicTextGap="6.0" layoutX="746.0" layoutY="20.0" mnemonicParsing="false" onAction="#inchide" style="-fx-background-color: #03f8fc;" text="Inchide">
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Button>
          </children>
       </HBox>
