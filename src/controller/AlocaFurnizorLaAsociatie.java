@@ -56,28 +56,43 @@ public class AlocaFurnizorLaAsociatie implements Initializable {
             ex.printStackTrace();
         }
         listViewAsocFurn.getItems().addAll(furnizor);
-        listViewAsocFurn.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //listViewAsocFurn.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         listViewAsocFurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 ObservableList<String> selectedItems = listViewAsocFurn.getSelectionModel().getSelectedItems();
-                for (String s : selectedItems) {
-                    System.out.println("selected item " + s);
+                int IdFurnizor;
+                String query = "SELECT * FROM furnizori WHERE denumire=?";
+                String query1 = "INSERT INTO asociatii_furnizori (asociatiiID,furnizoriID) VALUES(?,?)";
+
+                try {
+                    PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query);
+                    String string = String.valueOf(selectedItems);
+                    pstmt.setString(1, string);
+
+                    ResultSet rs = pstmt.executeQuery();
+                    while (rs.next()) {
+                        IdFurnizor = rs.getInt("Id");
+                    }
+
+
+                        PreparedStatement pstmt1 = DatabaseHandler.conn.prepareStatement(query1);
+
+                        pstmt1.setInt(1, 1);
+                        pstmt1.setInt(2, IdFurnizor);
+                        pstmt1.executeUpdate();
+                    
+                    } catch(SQLException ex){
+                        ex.printStackTrace();
+                    }
                 }
-
-
-            }
-        });
-    }
-
-    public int primesteAsociatieSelectata(Asociatii asociatii) {
-        int id = asociatii.getId();
-        System.out.println("ID este " + id);
-        return id;
+            });
+        }
     }
 
 
-}
+
+
 
 

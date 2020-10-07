@@ -53,7 +53,7 @@ public class ListareAsociatiiController implements Initializable {
     @FXML
     private TableColumn<Asociatii, Asociatii> colActiuni;
 
-    Asociatii selectedAsociatii;
+
 
 
     private FXMLLoader loader;
@@ -106,10 +106,12 @@ public class ListareAsociatiiController implements Initializable {
                     @Override
                     public void updateItem(final Asociatii asociatii, boolean empty) {
                         super.updateItem(asociatii, empty);
+
                         if (asociatii != null) {
                             setGraphic(button);
                             button.setOnAction(event -> {
-
+                                Asociatii selecteazaAsociatie= tabelAsociatii.getItems().get(getIndex());
+                                System.out.println(selecteazaAsociatie.getId());
                                 alocaFurnizor();
                             });
                         } else {
@@ -153,16 +155,8 @@ public class ListareAsociatiiController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/view/AlocaFurnziorLaAsociatie.fxml"));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, 600, 400);
-            AlocaFurnizorLaAsociatie controller=loader.getController();
-            tabelAsociatii.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue != null) {
-                    selectedAsociatii=newValue;
-                    tabelAsociatii.getScene().getWindow().hide();
-                }
-            });
 
-            controller.primesteAsociatieSelectata(getAsociatii());
+            Scene scene = new Scene(root, 600, 400);
 
             Stage stage = new Stage();
             stage.setTitle("Adauga furnizor la asociatie");
@@ -176,12 +170,9 @@ public class ListareAsociatiiController implements Initializable {
         }
     }
 
-
-    public Asociatii getAsociatii()
-    {
-        return selectedAsociatii;
-    }
 }
+
+
 
 
 
