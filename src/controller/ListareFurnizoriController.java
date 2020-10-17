@@ -1,7 +1,11 @@
 package controller;
 
 import database.DatabaseHandler;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,18 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import main.Main;
-import model.Asociatii;
 import model.Furnizori;
 
 import java.net.URL;
@@ -72,7 +70,6 @@ public class ListareFurnizoriController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/view/AdaugFurnizor.fxml"));
             Parent mainCallWindowFXML = loader.load();
 
-
             Scene scene = new Scene(mainCallWindowFXML, 600, 400);
             Stage stage = new Stage();
             stage.setTitle("Adauga furnizor");
@@ -86,7 +83,26 @@ public class ListareFurnizoriController implements Initializable {
     }
 
     public void initiateCols() {
-        colNrCrt.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        colNrCrt.setCellFactory(col -> {
+            TableCell<Furnizori, Integer> indexCell = new TableCell<>();
+            ReadOnlyObjectProperty<TableRow> rowProperty = indexCell.tableRowProperty();
+            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
+                TableRow<Furnizori> row = rowProperty.get();
+                if (row != null) { // can be null during CSS processing
+                    int rowIndex = row.getIndex();
+                    if (rowIndex < row.getTableView().getItems().size()) {
+                        return Integer.toString(rowIndex);
+                    }
+                }
+                return null;
+            }, rowProperty);
+            indexCell.textProperty().bind(rowBinding);
+            return indexCell;
+        });
+
+
+       // colNrCrt.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCIF.setCellValueFactory(new PropertyValueFactory<>("CUI"));
         colDenumire.setCellValueFactory(new PropertyValueFactory<>("denumire"));
         colAdresa.setCellValueFactory(new PropertyValueFactory<>("adresa"));
@@ -108,7 +124,7 @@ public class ListareFurnizoriController implements Initializable {
                         if (furnizori != null) {
                             setGraphic(button1);
                             button1.setOnAction(event -> {
-                                adaugaCodClient();
+                                adaugaCodClient( furnizori.getId(),furnizori.getDenumire());
                             });
                         } else {
                             setGraphic(null);
@@ -141,10 +157,12 @@ public class ListareFurnizoriController implements Initializable {
     }
 
 
-    void adaugaCodClient() {
+    void adaugaCodClient(int Id, String denumire) {
         try {
             loader = new FXMLLoader(getClass().getResource("/view/AdaugaCodClient.fxml"));
             Parent mainCallWindowFXML = loader.load();
+            AdaugaCodClient controller=loader.getController();
+            controller.setFurnizor(Id,denumire);
 
             Scene scene = new Scene(mainCallWindowFXML, 600, 400);
             Stage stage = new Stage();
@@ -158,6 +176,5 @@ public class ListareFurnizoriController implements Initializable {
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
     }
-
 }
 

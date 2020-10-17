@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="adaugaAsociatiePane" prefHeight="491.0" prefWidth="476.0" stylesheets="@../main/adaugaAsociatii.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AlocaFurnizorLaAsociatie">
+<AnchorPane fx:id="adaugaAsociatiePane" prefHeight="491.0" prefWidth="476.0" stylesheets="@../CSS/adaugaAsociatii.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AlocaFurnizorLaAsociatie">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="100.0" prefHeight="491.0" prefWidth="476.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,11 +20,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="listViewAsocFurn" prefHeight="320.0" prefWidth="456.0">
+            <ListView fx:id="listViewAsocFurn" prefHeight="292.0" prefWidth="456.0">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></ListView>
-            <Button fx:id="btnAloca" mnemonicParsing="false" onAction="#alocaFurnizor" prefHeight="59.0" prefWidth="166.0" stylesheets="@../main/adaugaAsociatii.css" text="Adauga">
+            <Button fx:id="btnAloca" mnemonicParsing="false" onAction="#alocaFurnizor" prefHeight="59.0" prefWidth="166.0" style="-fx-background-color: green;" stylesheets="@../CSS/adaugaAsociatii.css" text="Adauga">
                <font>
                   <Font size="25.0" />
                </font>

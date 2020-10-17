@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class AdaugareAsociatieController implements Initializable {
 
-       @FXML
+    @FXML
     private AnchorPane adaugaAsociatiePane;
 
     @FXML
@@ -27,11 +27,11 @@ public class AdaugareAsociatieController implements Initializable {
     @FXML
     private TextField txtAdresa;
 
-        @Override
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-       @FXML
+    @FXML
     void adaugaAsociatie(ActionEvent event) {
 
         String CIF = txtCIF.getText();
@@ -64,14 +64,9 @@ public class AdaugareAsociatieController implements Initializable {
                 alert.showAndWait();
                 System.out.println(ex);
             }
-
         }
-
-
         adaugaAsociatiePane.getScene().getWindow().hide();
-
     }
-
 }
 
 

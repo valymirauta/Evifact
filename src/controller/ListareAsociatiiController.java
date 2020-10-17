@@ -1,6 +1,9 @@
 package controller;
 
 import database.DatabaseHandler;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,14 +20,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Asociatii;
+import model.Furnizori;
 
-import javax.jws.WebParam;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,6 +72,7 @@ public class ListareAsociatiiController implements Initializable {
             Parent mainCallWindowFXML = loader.load();
 
             Scene scene = new Scene(mainCallWindowFXML, 600, 400);
+            scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
             Stage stage = new Stage();
             stage.setTitle("Adauga asociatie");
             stage.setScene(scene);
@@ -85,7 +87,24 @@ public class ListareAsociatiiController implements Initializable {
 
     @FXML
     public void initiateCols() {
-        colNrCrt.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNrCrt.setCellFactory(col -> {
+            TableCell<Asociatii, Integer> indexCell = new TableCell<>();
+            ReadOnlyObjectProperty<TableRow> rowProperty = indexCell.tableRowProperty();
+            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
+                TableRow<Furnizori> row = rowProperty.get();
+                if (row != null) { // can be null during CSS processing
+                    int rowIndex = row.getIndex();
+                    if (rowIndex < row.getTableView().getItems().size()) {
+                        return Integer.toString(rowIndex);
+                    }
+                }
+                return null;
+            }, rowProperty);
+            indexCell.textProperty().bind(rowBinding);
+            return indexCell;
+        });
+
+        //colNrCrt.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCIF.setCellValueFactory(new PropertyValueFactory<>("CIF"));
         colDenumire.setCellValueFactory(new PropertyValueFactory<>("denumire"));
         colAdresa.setCellValueFactory(new PropertyValueFactory<>("adresa"));
@@ -111,8 +130,8 @@ public class ListareAsociatiiController implements Initializable {
                             setGraphic(button);
                             button.setOnAction(event -> {
                                 Asociatii selecteazaAsociatie= tabelAsociatii.getItems().get(getIndex());
-                                System.out.println(selecteazaAsociatie.getId());
-                                alocaFurnizor();
+                                int ID=selecteazaAsociatie.getId();
+                                alocaFurnizor(ID);
                             });
                         } else {
                             setGraphic(null);
@@ -125,7 +144,7 @@ public class ListareAsociatiiController implements Initializable {
 
 
     public void loadData() {
-        list.removeAll();
+        list.clear();
         String query = "SELECT * FROM asociatii";
         try {
             PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query);
@@ -148,16 +167,16 @@ public class ListareAsociatiiController implements Initializable {
     @FXML
     void refresh(ActionEvent event) {
         loadData();
+        initiateCols();
     }
 
-    void alocaFurnizor() {
+    void alocaFurnizor(int ID) {
         try {
             loader = new FXMLLoader(getClass().getResource("/view/AlocaFurnziorLaAsociatie.fxml"));
             Parent root = loader.load();
-
-
+            AlocaFurnizorLaAsociatie controller=loader.getController();
+            controller.getIdAsociatie(ID);
             Scene scene = new Scene(root, 600, 400);
-
             Stage stage = new Stage();
             stage.setTitle("Adauga furnizor la asociatie");
             stage.setScene(scene);

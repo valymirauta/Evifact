@@ -1,4 +1,4 @@
-#lblTitle{
+.label{
     -fx-background-color:#3a434c;
     -fx-text-fill:white;
     -fx-alignment:center;
@@ -6,10 +6,18 @@
 .button{
     -fx-text-fill:white;
     -fx-opacity:0.9;
+    -fx-background-color:green;
+
 }
 #btnAdauga{
     -fx-background-color:#0b824e;
 }
 .button:hover{
     -fx-opacity:1;
+}
+
+.combo-box-base {
+
+-fx-text-fill:green;
+-fx-text-base-color:blue;
 }
