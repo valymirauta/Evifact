@@ -92,7 +92,7 @@ public class ListareFurnizoriController implements Initializable {
                 if (row != null) { // can be null during CSS processing
                     int rowIndex = row.getIndex();
                     if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex);
+                        return Integer.toString(rowIndex+1);
                     }
                 }
                 return null;

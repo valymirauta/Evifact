@@ -14,6 +14,7 @@ public class DatabaseHandler {
         creareTabelFurnizori();
         creareTabelAsociatiiFurnizori();
         creareTabelCodClient();
+        creareTabelFacturi();
     }
 
     public static DatabaseHandler getInstance() {
@@ -111,6 +112,32 @@ public class DatabaseHandler {
                         "   REFERENCES asociatii (Id)," +
                         " FOREIGN KEY (furnizoriID)" +
                         "   REFERENCES furnizori (Id))");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void creareTabelFacturi() {
+        String TABLE_NAME = "facturi";
+
+        try {
+            stmt = conn.createStatement();
+            DatabaseMetaData dbm = conn.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toLowerCase(), null);
+            if (!tables.next()) {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "(" +
+                        " Id integer PRIMARY KEY AUTOINCREMENT," +
+                        " codBare text NOT NULL," +
+                        " codClient text NOT NULL," +
+                        " serieNrFactura text NOT NULL," +
+                        " dataEmiterii date NOT NULL," +
+                        " dataScadenta date NOT NULL," +
+                        " valoare real NOT NULL," +
+                        " achitat integer NOT NULL," +
+                        " codClientID integer NOT NULL," +
+                        " FOREIGN KEY (codClientID)" +
+                        "   REFERENCES codClient (Id))");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

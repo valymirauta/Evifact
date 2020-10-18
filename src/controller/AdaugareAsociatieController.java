@@ -3,6 +3,7 @@ package controller;
 import database.DatabaseHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -65,7 +66,10 @@ public class AdaugareAsociatieController implements Initializable {
                 System.out.println(ex);
             }
         }
+
         adaugaAsociatiePane.getScene().getWindow().hide();
+
+
     }
 }
 

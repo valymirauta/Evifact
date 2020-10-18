@@ -54,9 +54,6 @@ public class ListareAsociatiiController implements Initializable {
     @FXML
     private TableColumn<Asociatii, Asociatii> colActiuni;
 
-
-
-
     private FXMLLoader loader;
 
     @Override
@@ -72,7 +69,6 @@ public class ListareAsociatiiController implements Initializable {
             Parent mainCallWindowFXML = loader.load();
 
             Scene scene = new Scene(mainCallWindowFXML, 600, 400);
-            scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
             Stage stage = new Stage();
             stage.setTitle("Adauga asociatie");
             stage.setScene(scene);
@@ -95,7 +91,8 @@ public class ListareAsociatiiController implements Initializable {
                 if (row != null) { // can be null during CSS processing
                     int rowIndex = row.getIndex();
                     if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex);
+
+                        return Integer.toString(rowIndex+1);
                     }
                 }
                 return null;
@@ -166,8 +163,14 @@ public class ListareAsociatiiController implements Initializable {
 
     @FXML
     void refresh(ActionEvent event) {
-        loadData();
         initiateCols();
+        loadData();
+    }
+
+
+    void refresh() {
+        initiateCols();
+        loadData();
     }
 
     void alocaFurnizor(int ID) {

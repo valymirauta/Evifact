@@ -32,6 +32,13 @@ public class MainController implements Initializable {
         mainPane.setCenter(viewPane);
     }
 
+    @FXML
+    void viewFacturi(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        Pane viewPane = object.getPage("AdaugaFacturi");
+        mainPane.setCenter(viewPane);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         handler = DatabaseHandler.getInstance();
