@@ -40,6 +40,7 @@ public class AdaugaCodClient implements Initializable {
 
     public static int IdFurnizor;
     public static int IdAsociatie;
+    public static int IdAsociatieFurnizor;
 
     @FXML
     void alegeAsociatia(ActionEvent event) {
@@ -59,22 +60,34 @@ public class AdaugaCodClient implements Initializable {
             alert.showAndWait();
         } else {
             String selected = alegeAsociatia.getValue();
+            System.out.println("1: "+selected);
 
             String query1 = "SELECT Id FROM asociatii WHERE denumireScurta=?";
+
             try {
                 PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query1);
                 pstmt.setString(1, selected);
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
                     IdAsociatie = rs.getInt("Id");
+                    System.out.println("2: "+IdAsociatie);
+                }
+                String query3 = "SELECT Id FROM asociatii_furnizori WHERE (asociatiiID=? and furnizoriID=?)";
+                PreparedStatement pstmt3 = DatabaseHandler.conn.prepareStatement(query3);
+                System.out.println("3: "+IdFurnizor);
+                pstmt3.setInt(1, IdAsociatie);
+                pstmt3.setInt(2, IdFurnizor);
+                ResultSet rs3 = pstmt3.executeQuery();
+                while (rs3.next()) {
+                    IdAsociatieFurnizor = rs3.getInt("Id");
+                    System.out.println("4: "+IdAsociatieFurnizor);
                 }
 
-                String query2 = "INSERT INTO codClient (codClient,tipUtilitate, asociatiiID,furnizoriID) VALUES (?,?,?,?)";
+                String query2 = "INSERT INTO codClient (codClient,tipUtilitate, asociatii_furnizoriID) VALUES (?,?,?)";
                 PreparedStatement pstmt1 = DatabaseHandler.conn.prepareStatement(query2);
                 pstmt1.setString(1, codClient);
                 pstmt1.setString(2, tipUtilitate);
-                pstmt1.setInt(3, IdAsociatie);
-                pstmt1.setInt(4, IdFurnizor);
+                pstmt1.setInt(3, IdAsociatieFurnizor);
                 pstmt1.executeUpdate();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

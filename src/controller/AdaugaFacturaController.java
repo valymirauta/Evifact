@@ -255,13 +255,16 @@ public class AdaugaFacturaController implements Initializable {
     public void cautareDate(String codPlata) {
 
         String query1 = "SELECT Id FROM codClient WHERE codClient=?";
-        String query2 = "SELECT denumireScurta FROM asociatii WHERE Id=(SELECT asociatiiID FROM codClient WHERE codClient=?)";
+
+        String query2 = "SELECT denumireScurta FROM asociatii WHERE " +
+                "Id=(SELECT asociatiiID FROM asociatii_furnizori WHERE Id=(SELECT asociatii_furnizoriID FROM codClient WHERE codClient=?))";
         try {
             PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query1);
             pstmt.setString(1, codPlata);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 IdCodClient = rs.getInt("Id");
+                System.out.println("1: "+IdCodClient);
             }
 
             PreparedStatement pstmt1 = DatabaseHandler.conn.prepareStatement(query2);
@@ -269,6 +272,7 @@ public class AdaugaFacturaController implements Initializable {
             ResultSet rs1 = pstmt1.executeQuery();
             while (rs1.next()) {
                 denScurta = rs1.getString("denumireScurta");
+                System.out.println("2: "+denScurta);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
