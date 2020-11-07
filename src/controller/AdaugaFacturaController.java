@@ -3,11 +3,17 @@ package controller;
 import database.DatabaseHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -18,10 +24,15 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdaugaFacturaController implements Initializable {
 
     DatabaseHandler handler;
+
+    @FXML
+    private AnchorPane adaugaFactura;
 
     @FXML
     private TextField codBare;
@@ -56,9 +67,42 @@ public class AdaugaFacturaController implements Initializable {
     @FXML
     private Button btnAdauga;
 
+    @FXML
+    private Button btnInchide;
+
+    @FXML
+    private Button btnManual;
+
+    private FXMLLoader loader;
+
     public static int IdCodClient;
     public static String denScurta;
     public static String seriNrFactura;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        curatareFormular();
+    }
+
+    @FXML
+    void btnPreiaManual(ActionEvent event) {
+        try {
+            loader = new FXMLLoader(getClass().getResource("/view/AdaugaFacturiManual.fxml"));
+            Parent mainCallWindowFXML = loader.load();
+
+            Scene scene = new Scene(mainCallWindowFXML, 600, 400);
+            Stage stage = new Stage();
+            stage.setTitle("Adauga factura");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        }
+        Stage stage = (Stage) btnManual.getScene().getWindow();
+        stage.close();
+    }
 
 
     @FXML
@@ -73,41 +117,50 @@ public class AdaugaFacturaController implements Initializable {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        if (lblSerieNrFactura.getText().equals(seriNrFactura)) {
-
+        if (lblCodClient.getText() == "" || lblSerieNrFactura.getText() == "" || lblDataEmiterii.getText() == ""
+                || lblDataScadenta.getText() == "" || lblValoare.getText() == "") {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Factura a fost deja preluata");
-            alert.setContentText("Introduceti alta factura");
+            alert.setHeaderText("Nu ati introdus date");
+            alert.setContentText("Preluati alta factura");
             alert.showAndWait();
             curatareFormular();
         } else {
+            if (lblSerieNrFactura.getText().equals(seriNrFactura)) {
 
-            String query = "INSERT INTO facturi (codBare, codClient, serieNrFactura,dataEmiterii,dataScadenta,valoare,achitat,codClientID) VALUES (?,?,?,?,?,?,?,?)";
-            try {
-                PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query);
-                pstmt.setString(1, lblCodBare.getText());
-                pstmt.setString(2, lblCodClient.getText());
-                pstmt.setString(3, lblSerieNrFactura.getText());
-                pstmt.setString(4, lblDataEmiterii.getText());
-                pstmt.setString(5, lblDataScadenta.getText());
-                pstmt.setString(6, lblValoare.getText());
-                pstmt.setInt(7, 0);
-                pstmt.setInt(8, IdCodClient);
-                pstmt.executeUpdate();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
-                alert.setContentText("Successfully added");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Factura a fost deja preluata");
+                alert.setContentText("Introduceti alta factura");
                 alert.showAndWait();
+                curatareFormular();
+            } else {
 
-            } catch (SQLException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Operation failed");
-                alert.showAndWait();
-                System.out.println(ex);
+                String query = "INSERT INTO facturi (codBare, codClient, serieNrFactura,dataEmiterii,dataScadenta,valoare,achitat,codClientID) VALUES (?,?,?,?,?,?,?,?)";
+                try {
+                    PreparedStatement pstmt = DatabaseHandler.conn.prepareStatement(query);
+                    pstmt.setString(1, lblCodBare.getText());
+                    pstmt.setString(2, lblCodClient.getText());
+                    pstmt.setString(3, lblSerieNrFactura.getText());
+                    pstmt.setString(4, lblDataEmiterii.getText());
+                    pstmt.setString(5, lblDataScadenta.getText());
+                    pstmt.setString(6, lblValoare.getText());
+                    pstmt.setInt(7, 0);
+                    pstmt.setInt(8, IdCodClient);
+                    pstmt.executeUpdate();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully added");
+                    alert.showAndWait();
+
+                } catch (SQLException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Operation failed");
+                    alert.showAndWait();
+                    System.out.println(ex);
+                }
+                curatareFormular();
             }
-            curatareFormular();
         }
     }
 
@@ -246,11 +299,12 @@ public class AdaugaFacturaController implements Initializable {
         cautareDate(codClient);
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        curatareFormular();
+    @FXML
+    void inchide(ActionEvent event) {
+        Stage stage = (Stage) btnInchide.getScene().getWindow();
+        stage.close();
     }
+
 
     public void cautareDate(String codPlata) {
 
@@ -264,7 +318,7 @@ public class AdaugaFacturaController implements Initializable {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 IdCodClient = rs.getInt("Id");
-                System.out.println("1: "+IdCodClient);
+                System.out.println("1: " + IdCodClient);
             }
 
             PreparedStatement pstmt1 = DatabaseHandler.conn.prepareStatement(query2);
@@ -272,7 +326,7 @@ public class AdaugaFacturaController implements Initializable {
             ResultSet rs1 = pstmt1.executeQuery();
             while (rs1.next()) {
                 denScurta = rs1.getString("denumireScurta");
-                System.out.println("2: "+denScurta);
+                System.out.println("2: " + denScurta);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

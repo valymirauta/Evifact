@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -30,12 +31,20 @@ public class AdaugareFurnizorController implements Initializable {
     @FXML
     private Button btnAdauga;
 
+    @FXML
+    private Button btnInchide;
+
     private FXMLLoader loader;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+    @FXML
+    void inchide(ActionEvent event) {
+        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+    }
+
 
     @FXML
     void adaugaFurnizor(ActionEvent event) {

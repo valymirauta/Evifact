@@ -35,7 +35,7 @@ public class MainController implements Initializable {
     @FXML
     void viewFacturi(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        Pane viewPane = object.getPage("AdaugaFacturi");
+        Pane viewPane = object.getPage("ListaFacturi");
         mainPane.setCenter(viewPane);
     }
 
@@ -43,4 +43,12 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         handler = DatabaseHandler.getInstance();
     }
+
+    @FXML
+    void inchide(ActionEvent event) {
+        System.exit(0);
+    }
+
+
 }
+

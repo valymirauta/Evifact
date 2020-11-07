@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -43,10 +44,19 @@
             </TextField>
          </children>
       </VBox>
-      <Button fx:id="btnAdauga" layoutX="147.0" layoutY="304.0" mnemonicParsing="false" onAction="#adaugaFurnizor" prefHeight="59.0" prefWidth="166.0" styleClass="btn,btn-lg" stylesheets="@../CSS/adaugaAsociatii.css" text="Adauga">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Button>
+      <ButtonBar layoutX="29.0" layoutY="311.0" prefHeight="54.0" prefWidth="406.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
+        <buttons>
+            <Button fx:id="btnAdauga" mnemonicParsing="false" onAction="#adaugaFurnizor" prefHeight="54.0" styleClass="btn,btn-lg" stylesheets="@../CSS/adaugaAsociatii.css" text="Adauga">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnInchide" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#inchide" prefHeight="54.0" styleClass="btn,btn-lg" stylesheets="@../CSS/adaugaAsociatii.css" text="Inchide">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+        </buttons>
+      </ButtonBar>
    </children>
 </AnchorPane>

@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="listaFurnizoriPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListareFurnizoriController">
+<AnchorPane fx:id="listaFacturiPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListareFacturiController">
    <children>
       <HBox AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Button fx:id="btnAdaugaFurnizor" defaultButton="true" mnemonicParsing="false" onAction="#furnizorNou" prefHeight="53.0" prefWidth="188.0" text="Adauga furnizor">
+            <Button fx:id="btnAdaugaFactura" defaultButton="true" mnemonicParsing="false" onAction="#facturaNoua" prefHeight="53.0" prefWidth="188.0" text="Adauga factura">
                <font>
                   <Font size="20.0" />
                </font>
@@ -22,20 +22,22 @@
       </HBox>
       <HBox layoutY="53.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <TextField prefHeight="44.0" prefWidth="839.0" promptText="Cauta furnizor">
+            <TextField prefHeight="44.0" prefWidth="839.0" promptText="Cauta factura">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
          </children>
       </HBox>
-      <TableView fx:id="tabelFurnizori" layoutY="97.0" prefHeight="435.0" prefWidth="830.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <TableView fx:id="tabelFacturi" layoutY="97.0" prefHeight="435.0" prefWidth="830.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <columns>
-          <TableColumn fx:id="colNrCrt" maxWidth="1500.0" prefWidth="47.0" text="Nr. crt." />
-          <TableColumn fx:id="colCIF" prefWidth="155.0" text="CIF" />
-            <TableColumn fx:id="colDenumire" prefWidth="234.0" text="Denumire" />
-            <TableColumn fx:id="colAdresa" prefWidth="393.0" text="Adresa" />
-            <TableColumn fx:id="colActiuni" prefWidth="393.0" text="Actiuni" />
+          <TableColumn fx:id="colNrCrt" maxWidth="1500.0" prefWidth="63.3333101272583" text="Nr. crt." />
+          <TableColumn fx:id="colCodClient" prefWidth="176.6667251586914" text="Cod client" />
+            <TableColumn fx:id="colCodBare" prefWidth="234.0" text="Cod bare" />
+            <TableColumn fx:id="colSerieNr" prefWidth="393.0" text="Serie /Nr" />
+            <TableColumn fx:id="colDataEmitere" prefWidth="393.0" text="Data emitere" />
+            <TableColumn fx:id="colDataScadenta" prefWidth="393.0" text="Data scadenta" />
+            <TableColumn fx:id="colSuma" prefWidth="393.0" text="Suma" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

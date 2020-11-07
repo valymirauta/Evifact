@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -83,6 +84,12 @@ public class AlocaFurnizorLaAsociatie implements Initializable {
 
     public int getIdAsociatie(Integer Id) {
         return IdAsociatie = Id;
+    }
+
+
+    @FXML
+    void inchide(ActionEvent event) {
+        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
     }
 }
 

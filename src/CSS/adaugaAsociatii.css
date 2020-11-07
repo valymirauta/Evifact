@@ -10,6 +10,10 @@
 #btnAdauga{
     -fx-background-color:#0b824e;
 }
+
+#btnInchide{
+    -fx-background-color:#0b824e;
+}
 .button:hover{
     -fx-opacity:1;
 }
